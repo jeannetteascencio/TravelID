@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadbook Carretera Austral — Hasta Villa O'Higgins</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Barlow:ital,wght@0,300;0,400;0,600;1,300&family=Barlow+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pino: #2D5A27; --rio: #1B6CA8; --sol: #D4860A; --salmon: #C4522A;
+    --dark: #1C1C14; --parchment: #FAF6ED; --niebla: #8A9BAB; --roca: #4A4A3A;
+    --hielo: #E8F4F8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Barlow',sans-serif; background:var(--parchment); color:var(--dark); font-weight:300; }
+
+  /* COVER */
+  .cover { min-height:100vh; background:linear-gradient(160deg,#0A1A10 0%,#152B1C 35%,#1F4A30 65%,#0D2B45 100%); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:4rem 2rem; position:relative; overflow:hidden; }
+  .cover::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 80 Q25 60 50 75 Q75 90 100 70 L100 100 L0 100Z' fill='%23ffffff06'/%3E%3C/svg%3E") repeat-x bottom; background-size:200px; }
+  .cover-tag { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,0.55); margin-bottom:2rem; }
+  .cover h1 { font-family:'Playfair Display',serif; font-size:clamp(2.8rem,8vw,7rem); font-weight:900; color:#fff; line-height:0.9; margin-bottom:0.8rem; }
+  .cover h1 em { display:block; font-size:clamp(1rem,2.5vw,1.7rem); font-weight:400; font-style:italic; color:rgba(255,255,255,0.65); margin-top:0.6rem; }
+  .divider { width:80px; height:2px; background:linear-gradient(90deg,transparent,#D4860A,transparent); margin:2rem auto; }
+  .cover-meta { display:flex; gap:2rem; flex-wrap:wrap; justify-content:center; margin-bottom:2rem; }
+  .cover-meta-item .label { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.45); display:block; margin-bottom:3px; }
+  .cover-meta-item .value { font-family:'Barlow Condensed',sans-serif; font-size:1.25rem; font-weight:700; color:#fff; }
+  .cover-mountain { position:absolute; bottom:0; left:0; right:0; height:180px; }
+  .scroll-hint { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.35); font-size:11px; letter-spacing:2px; text-transform:uppercase; animation:bob 2s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+  nav { position:sticky; top:0; background:var(--dark); z-index:100; padding:0 2rem; display:flex; align-items:center; overflow-x:auto; scrollbar-width:none; }
+  nav::-webkit-scrollbar { display:none; }
+  .nav-brand { font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--sol); white-space:nowrap; padding:1rem 1.5rem 1rem 0; border-right:1px solid rgba(255,255,255,0.1); margin-right:1rem; }
+  nav a { font-size:12px; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.5); text-decoration:none; padding:1rem 0.75rem; white-space:nowrap; transition:color .2s; font-family:'Barlow Condensed',sans-serif; }
+  nav a:hover { color:#fff; }
+
+  section { padding:5rem 2rem; max-width:1100px; margin:0 auto; }
+  .section-tag { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--salmon); margin-bottom:0.5rem; }
+  h2 { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; color:var(--dark); line-height:1.1; margin-bottom:2rem; }
+
+  /* STATS */
+  .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1rem; margin-bottom:3rem; }
+  .stat { background:var(--dark); padding:1.5rem 1rem; border-radius:4px; text-align:center; }
+  .stat .num { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--sol); display:block; line-height:1; }
+  .stat .desc { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-top:0.3rem; font-family:'Barlow Condensed',sans-serif; }
+
+  /* PHASE BANNERS */
+  .phase { display:flex; align-items:center; gap:1rem; padding:1rem 1.5rem; border-radius:6px; margin:2rem 0 1.5rem; }
+  .phase.bajada { background:var(--pino); }
+  .phase.regreso { background:var(--rio); }
+  .phase.final { background:var(--salmon); }
+  .phase .pi { font-size:1.8rem; flex-shrink:0; }
+  .phase h3 { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#fff; }
+  .phase p { font-size:12px; color:rgba(255,255,255,0.75); margin-top:2px; font-family:'Barlow Condensed',sans-serif; }
+
+  /* TIMELINE */
+  .timeline { position:relative; padding-left:3rem; }
+  .timeline::before { content:''; position:absolute; left:0.8rem; top:0; bottom:0; width:2px; }
+  .timeline.tl-bajada::before { background:linear-gradient(180deg,var(--pino),#1B4D15); }
+  .timeline.tl-regreso::before { background:var(--rio); }
+
+  .day { position:relative; background:#fff; border-radius:8px; margin-bottom:1.4rem; overflow:hidden; border:1px solid rgba(0,0,0,0.06); }
+  .day.is-final { border:2px solid var(--salmon); }
+  .day-dot { position:absolute; left:-2.55rem; top:1.4rem; width:16px; height:16px; border-radius:50%; background:var(--pino); border:3px solid var(--parchment); z-index:1; }
+  .day-dot.ferry { background:var(--rio); }
+  .day-dot.hl { background:var(--sol); }
+  .day-dot.trek { background:var(--salmon); }
+  .day-dot.ret { background:var(--rio); }
+  .day-dot.fin { background:var(--salmon); width:20px; height:20px; left:-2.75rem; }
+
+  .day-hdr { display:flex; align-items:stretch; cursor:pointer; }
+  .day-num { background:var(--dark); color:var(--sol); font-family:'Playfair Display',serif; font-size:1.9rem; font-weight:900; padding:1rem 1.1rem; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:65px; line-height:1; flex-shrink:0; }
+  .day-num.ret-n { background:#0A2035; }
+  .day-num.fin-n { background:#4A1005; }
+  .day-num small { font-size:9px; letter-spacing:2px; color:rgba(255,255,255,0.4); text-transform:uppercase; font-family:'Barlow Condensed',sans-serif; font-weight:400; display:block; margin-top:2px; }
+  .day-info { flex:1; padding:0.9rem 1.1rem; }
+  .day-route { font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:700; color:var(--dark); letter-spacing:0.5px; }
+  .day-sub { font-size:12px; color:var(--niebla); margin-top:2px; }
+  .day-tags { display:flex; gap:5px; flex-wrap:wrap; margin-top:7px; }
+  .t { font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:1px; text-transform:uppercase; padding:3px 7px; border-radius:2px; font-weight:700; }
+  .t.g { background:#E8F4E8; color:var(--pino); }
+  .t.a { background:#E0EDF8; color:var(--rio); }
+  .t.o { background:#FDF0E0; color:var(--sol); }
+  .t.r { background:#F8E8E0; color:var(--salmon); }
+  .t.gr { background:#F0F0EC; color:var(--roca); }
+
+  .day-body { padding:1rem 1.1rem 1.1rem; border-top:1px solid rgba(0,0,0,0.05); display:none; }
+  .day-body.open { display:block; }
+  .day-body p { font-size:14px; line-height:1.75; color:#444; margin-bottom:0.8rem; }
+  .detail-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(195px,1fr)); gap:1rem; margin-top:1rem; }
+  .db { padding:0.8rem 1rem; border-radius:4px; border-left:3px solid var(--pino); background:var(--hielo); }
+  .db.fu { border-left-color:var(--sol); background:#FFF8EC; }
+  .db.sl { border-left-color:var(--rio); background:#EFF6FC; }
+  .db.hi { border-left-color:var(--salmon); background:#FDF0E8; }
+  .db.al { border-left-color:#C0392B; background:#FDF0F0; }
+  .db h4 { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; margin-bottom:5px; color:var(--roca); }
+  .db ul { list-style:none; font-size:13px; color:#444; line-height:1.65; }
+  .db ul li::before { content:'→ '; color:var(--niebla); font-size:11px; }
+
+  .toggle-btn { background:none; border:none; color:var(--niebla); font-size:12px; cursor:pointer; padding:0.4rem 1rem; font-family:'Barlow Condensed',sans-serif; letter-spacing:1px; text-transform:uppercase; transition:color .2s; display:block; }
+  .toggle-btn:hover { color:var(--dark); }
+
+  /* FINAL BOX */
+  .final-box { background:linear-gradient(135deg,#3A0A02,#6B1A08); border-radius:10px; padding:2.5rem 2rem; margin:2rem 0; text-align:center; color:#fff; }
+  .final-box h3 { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; margin-bottom:0.8rem; }
+  .final-box p { font-size:14px; opacity:.85; line-height:1.8; max-width:620px; margin:0 auto; }
+  .final-km { display:inline-block; font-family:'Barlow Condensed',sans-serif; font-size:3rem; font-weight:700; color:var(--sol); line-height:1; margin-bottom:.5rem; }
+
+  /* FERRYS */
+  .ferry-box { background:var(--rio); color:#fff; border-radius:8px; padding:1.4rem 1.8rem; margin-bottom:1.2rem; display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap; }
+  .ferry-box.alt { background:var(--pino); }
+  .fi { font-size:2.5rem; opacity:.8; flex-shrink:0; }
+  .ferry-box h3 { font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:700; letter-spacing:1px; margin-bottom:3px; }
+  .ferry-box p { font-size:13px; opacity:.8; line-height:1.5; }
+
+  /* GAS */
+  .gas-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(195px,1fr)); gap:1rem; }
+  .gas-card { background:#fff; border:1px solid rgba(0,0,0,0.08); border-radius:6px; padding:1rem 1.1rem; position:relative; overflow:hidden; }
+  .gas-card::before { content:'⛽'; position:absolute; right:.8rem; top:.8rem; font-size:1.4rem; opacity:.2; }
+  .gas-card h4 { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; color:var(--dark); margin-bottom:1px; }
+  .gas-card .km { font-size:11px; color:var(--niebla); margin-bottom:7px; font-family:'Barlow Condensed',sans-serif; letter-spacing:1px; }
+  .gas-card .tags { display:flex; gap:5px; flex-wrap:wrap; }
+  .ft { font-size:10px; font-weight:700; padding:2px 7px; border-radius:2px; font-family:'Barlow Condensed',sans-serif; letter-spacing:1px; }
+  .ft.ok { background:#E8F5E9; color:#2E7D32; }
+  .ft.warn { background:#FFF3E0; color:#E65100; }
+
+  /* ALOJAMIENTO */
+  .aloj-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.1rem; }
+  .aloj { background:#fff; border:1px solid rgba(0,0,0,0.08); border-radius:8px; overflow:hidden; }
+  .aloj-hdr { padding:0.9rem 1.1rem; border-bottom:1px solid rgba(0,0,0,0.05); display:flex; justify-content:space-between; align-items:flex-start; gap:.5rem; }
+  .aloj-name { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; color:var(--dark); }
+  .aloj-loc { font-size:12px; color:var(--niebla); margin-top:1px; }
+  .aloj-type { font-size:10px; font-family:'Barlow Condensed',sans-serif; letter-spacing:1px; text-transform:uppercase; padding:3px 7px; border-radius:2px; flex-shrink:0; }
+  .aloj-type.cab { background:#E8F4E8; color:var(--pino); }
+  .aloj-type.cam { background:#FDF0E0; color:var(--sol); }
+  .aloj-type.lod { background:#E0EDF8; color:var(--rio); }
+  .aloj-body { padding:0.8rem 1.1rem; font-size:13px; color:#555; line-height:1.6; }
+
+  /* TREKKING */
+  .trek { background:#fff; border-radius:8px; overflow:hidden; border:1px solid rgba(0,0,0,0.08); margin-bottom:1.1rem; display:flex; }
+  .tk-bar { width:6px; flex-shrink:0; }
+  .tk-bar.e { background:var(--pino); }
+  .tk-bar.m { background:var(--sol); }
+  .tk-bar.h { background:var(--salmon); }
+  .trek-c { flex:1; padding:1rem 1.1rem; }
+  .trek-hdr { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:5px; flex-wrap:wrap; }
+  .trek-name { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; color:var(--dark); }
+  .dif { font-size:10px; font-family:'Barlow Condensed',sans-serif; letter-spacing:1px; text-transform:uppercase; padding:3px 7px; border-radius:2px; font-weight:700; flex-shrink:0; }
+  .dif.e { background:#E8F5E9; color:#2E7D32; }
+  .dif.m { background:#FFF3E0; color:#E65100; }
+  .dif.h { background:#FCE4EC; color:#C62828; }
+  .trek-meta { display:flex; gap:1.2rem; flex-wrap:wrap; margin-bottom:5px; font-size:12px; color:var(--niebla); font-family:'Barlow Condensed',sans-serif; }
+  .trek-c p { font-size:13px; color:#555; line-height:1.6; }
+
+  /* TIPS */
+  .tips-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(235px,1fr)); gap:1rem; }
+  .tip { background:#fff; border:1px solid rgba(0,0,0,0.08); border-radius:8px; padding:1.2rem; }
+  .tip-icon { font-size:1.8rem; margin-bottom:.4rem; display:block; }
+  .tip h4 { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; color:var(--dark); margin-bottom:5px; }
+  .tip p { font-size:13px; color:#555; line-height:1.6; }
+
+  /* MAP */
+  .map-wrap { background:var(--dark); border-radius:8px; overflow:hidden; margin-bottom:3rem; }
+
+  .section-divider { width:100%; height:2px; background:linear-gradient(90deg,transparent,var(--pino) 30%,var(--rio) 70%,transparent); }
+
+  footer { background:var(--dark); color:rgba(255,255,255,0.5); text-align:center; padding:2rem; font-size:12px; letter-spacing:1px; font-family:'Barlow Condensed',sans-serif; }
+  footer strong { color:var(--sol); }
+
+  /* INFO BOX */
+  .info-box { background:#FFF8EC; border:1px solid #FFD88A; border-radius:8px; padding:1.2rem 1.5rem; margin-top:1rem; }
+  .info-box strong { font-family:'Barlow Condensed',sans-serif; font-size:14px; letter-spacing:1px; text-transform:uppercase; color:var(--sol); }
+  .info-box p { font-size:13px; color:#555; margin-top:6px; line-height:1.7; }
+
+  @media(max-width:600px) {
+    .cover h1 { font-size:2.8rem; }
+    .timeline { padding-left:2rem; }
+    .timeline::before { left:.5rem; }
+    .day-dot { left:-1.7rem; }
+    .day-num { min-width:50px; font-size:1.4rem; padding:.8rem; }
+  }
+
+  /* ===== BUDGET SECTION ===== */
+  #presupuesto { padding:5rem 2rem; max-width:1100px; margin:0 auto; }
+
+  .budget-hero { background:linear-gradient(135deg,#0D1E15,#1B3A2A); border-radius:12px; padding:2.5rem 2rem; margin-bottom:2.5rem; display:flex; flex-wrap:wrap; gap:2rem; align-items:center; justify-content:space-between; }
+  .budget-hero-total { text-align:center; }
+  .budget-hero-total .big { font-family:'Playfair Display',serif; font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color:var(--sol); line-height:1; display:block; }
+  .budget-hero-total .sublabel { font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-top:.4rem; display:block; }
+  .budget-hero-meta { display:flex; gap:1.5rem; flex-wrap:wrap; }
+  .budget-hero-meta-item .bh-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.4); display:block; margin-bottom:3px; font-family:'Barlow Condensed',sans-serif; }
+  .budget-hero-meta-item .bh-val { font-family:'Barlow Condensed',sans-serif; font-size:1.2rem; font-weight:700; color:#fff; }
+
+  .budget-table-wrap { background:#fff; border-radius:10px; border:1px solid rgba(0,0,0,0.08); overflow:hidden; margin-bottom:2rem; }
+  .budget-table { width:100%; border-collapse:collapse; }
+  .budget-table thead tr { background:var(--dark); }
+  .budget-table thead th { padding:.85rem 1.1rem; font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.6); text-align:left; font-weight:400; }
+  .budget-table thead th:last-child { text-align:right; }
+  .budget-table tbody tr { border-bottom:1px solid rgba(0,0,0,0.05); transition:background .15s; }
+  .budget-table tbody tr:last-child { border-bottom:none; }
+  .budget-table tbody tr:hover { background:#FAFAF6; }
+  .budget-table tbody tr.subtotal-row { background:#F7F4EE; }
+  .budget-table tbody tr.subtotal-row td { font-weight:600; font-family:'Barlow Condensed',sans-serif; font-size:14px; letter-spacing:.5px; padding:.9rem 1.1rem; }
+  .budget-table tbody tr.total-row { background:var(--dark); }
+  .budget-table tbody tr.total-row td { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--sol); padding:1.1rem; }
+  .budget-table tbody tr.total-row td:last-child { color:var(--sol); text-align:right; }
+  .budget-table td { padding:.75rem 1.1rem; font-size:13.5px; color:#444; vertical-align:top; }
+  .budget-table td:last-child { text-align:right; font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; color:var(--dark); white-space:nowrap; }
+  .budget-table td.detail { font-size:12px; color:var(--niebla); }
+
+  .cat-label { display:inline-flex; align-items:center; gap:6px; }
+  .cat-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; display:inline-block; }
+  .cat-dot.fuel  { background:#D4860A; }
+  .cat-dot.ferry { background:#1B6CA8; }
+  .cat-dot.food  { background:#2D5A27; }
+  .cat-dot.aloj  { background:#C4522A; }
+  .cat-dot.act   { background:#8A5FC0; }
+  .cat-dot.peaje { background:#8A9BAB; }
+  .cat-dot.impr  { background:#B0452A; }
+
+  .section-label { background:var(--parchment); padding:.5rem 1.1rem; display:flex; align-items:center; gap:.5rem; }
+  .section-label span { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--niebla); }
+  .section-label .sect-icon { font-size:1.1rem; }
+
+  /* DONUT CHART */
+  .budget-charts { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:2rem; }
+  @media(max-width:640px){ .budget-charts { grid-template-columns:1fr; } }
+  .chart-card { background:#fff; border:1px solid rgba(0,0,0,0.08); border-radius:10px; padding:1.5rem; }
+  .chart-card h4 { font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--niebla); margin-bottom:1.2rem; }
+  .donut-wrap { display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; }
+  .legend-list { list-style:none; flex:1; min-width:140px; }
+  .legend-list li { display:flex; align-items:center; gap:8px; font-size:13px; color:#444; padding:4px 0; }
+  .legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+  .legend-pct { margin-left:auto; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; color:var(--dark); }
+
+  /* BAR CHART */
+  .bar-chart { width:100%; }
+  .bar-row { display:flex; align-items:center; gap:.7rem; margin-bottom:.7rem; }
+  .bar-lbl { font-size:12px; color:#555; width:90px; flex-shrink:0; text-align:right; font-family:'Barlow Condensed',sans-serif; letter-spacing:.5px; }
+  .bar-track { flex:1; background:#F0EDE8; border-radius:3px; height:22px; position:relative; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:3px; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; transition:width .8s ease; }
+  .bar-fill span { font-size:11px; font-weight:700; color:#fff; font-family:'Barlow Condensed',sans-serif; white-space:nowrap; }
+
+  .nota-box { background:#F0F7FF; border:1px solid #BDD8F5; border-radius:8px; padding:1.1rem 1.4rem; margin-top:1.5rem; }
+  .nota-box p { font-size:13px; color:#335; line-height:1.7; }
+  .nota-box strong { font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:1px; text-transform:uppercase; color:var(--rio); }
+
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <p class="cover-tag">Roadbook Overland · Patagonia Profunda · Ida y Vuelta</p>
+  <h1>
+    Carretera Austral
+    <em>Puerto Montt ↔ Villa O'Higgins · El fin del mundo</em>
+  </h1>
+  <div class="divider"></div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="label">Inicio / Fin</span><span class="value">Puerto Montt</span></div>
+    <div class="cover-meta-item"><span class="label">Meta</span><span class="value">Villa O'Higgins</span></div>
+    <div class="cover-meta-item"><span class="label">Duración</span><span class="value">15 Días</span></div>
+    <div class="cover-meta-item"><span class="label">Temporada</span><span class="value">Febrero</span></div>
+    <div class="cover-meta-item"><span class="label">Vehículo</span><span class="value">Jeep Rubicon</span></div>
+    <div class="cover-meta-item"><span class="label">Distancia total</span><span class="value">~2.700 km</span></div>
+  </div>
+  <svg class="cover-mountain" viewBox="0 0 1200 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0 180 L0 150 Q80 90 180 130 Q280 160 380 90 Q460 40 540 70 Q590 88 640 60 Q720 15 820 55 Q890 85 960 40 Q1040 5 1100 65 Q1150 95 1200 50 L1200 180Z" fill="rgba(0,0,0,0.45)"/>
+    <path d="M0 180 L0 165 Q120 135 260 158 Q420 178 580 140 Q700 115 820 138 Q970 165 1100 125 Q1160 112 1200 135 L1200 180Z" fill="rgba(0,0,0,0.3)"/>
+  </svg>
+  <div class="scroll-hint">▼ desplaza para explorar</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">CA Roadbook</span>
+  <a href="#overview">Resumen</a>
+  <a href="#mapa">Mapa</a>
+  <a href="#ruta">Itinerario</a>
+  <a href="#ferrys">Ferrys</a>
+  <a href="#combustible">Combustible</a>
+  <a href="#alojamiento">Alojamiento</a>
+  <a href="#trekking">Trekkings</a>
+  <a href="#tips">Tips</a>
+  <a href="#presupuesto">Presupuesto</a>
+</nav>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <p class="section-tag">Resumen de la expedición</p>
+  <h2>Puerto Montt ↔ Villa O'Higgins<br>El fin de la ruta 7 en 15 días</h2>
+  <div class="stat-grid">
+    <div class="stat"><span class="num">1.247</span><span class="desc">km de bajada</span></div>
+    <div class="stat"><span class="num">~2.700</span><span class="desc">km totales</span></div>
+    <div class="stat"><span class="num">8</span><span class="desc">días hacia el sur</span></div>
+    <div class="stat"><span class="num">7</span><span class="desc">días de regreso</span></div>
+    <div class="stat"><span class="num">6</span><span class="desc">ferrys y barcazas</span></div>
+    <div class="stat"><span class="num">Feb.</span><span class="desc">temporada óptima</span></div>
+  </div>
+  <p style="font-size:15px;line-height:1.85;color:#555;max-width:740px;">
+    Con Villa O'Higgins como destino (Km 1.247 desde Puerto Montt, el punto final de la Ruta 7), los 15 días deben aprovecharse al máximo. La bajada en 8 días es directa pero rica en paradas clave. El regreso en 7 días es más ágil y utiliza parcialmente la ruta por Argentina — cruzando hacia Chile Chico y subiendo por el lago General Carrera — para ver paisajes completamente nuevos y no repetir el mismo camino. Febrero garantiza días largos (hasta 21:30h de luz) y los parques en plena operación.
+  </p>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- MAPA -->
+<section id="mapa" style="padding-bottom:2rem;">
+  <p class="section-tag">Cartografía de la expedición completa</p>
+  <h2>Mapa de ruta ida y vuelta</h2>
+  <div class="map-wrap">
+    <svg viewBox="0 0 1000 750" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+      <defs>
+        <radialGradient id="bg" cx="40%" cy="25%">
+          <stop offset="0%" stop-color="#1B3A2A"/>
+          <stop offset="100%" stop-color="#0A1510"/>
+        </radialGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+
+      <rect width="1000" height="750" fill="url(#bg)"/>
+
+      <!-- Océano Pacífico (oeste) -->
+      <ellipse cx="160" cy="160" rx="140" ry="75" fill="#0D2B45" opacity="0.5"/>
+      <ellipse cx="110" cy="300" rx="100" ry="60" fill="#0D2B45" opacity="0.42"/>
+      <ellipse cx="90" cy="440" rx="90" ry="55" fill="#0D2B45" opacity="0.38"/>
+      <ellipse cx="75" cy="580" rx="80" ry="50" fill="#0D2B45" opacity="0.33"/>
+      <ellipse cx="65" cy="700" rx="70" ry="45" fill="#0D2B45" opacity="0.28"/>
+
+      <!-- Andes (este) -->
+      <path d="M720 0 Q760 120 810 180 Q860 240 900 320 Q940 390 980 460 L980 0Z" fill="#1A280A" opacity="0.6"/>
+      <path d="M680 0 Q710 100 760 170 Q810 240 860 330 Q910 410 960 510 L960 0Z" fill="#223A14" opacity="0.3"/>
+
+      <!-- Lago General Carrera -->
+      <ellipse cx="530" cy="562" rx="90" ry="25" fill="#1B6CA8" opacity="0.4"/>
+      <text x="625" y="566" fill="#70AADD" font-family="'Barlow Condensed',sans-serif" font-size="11">Lago G. Carrera</text>
+
+      <!-- ===== RUTA IDA (línea dorada sólida) ===== -->
+      <!-- Puerto Montt → Hornopirén → Gonzalo → Chaitén → La Junta → Puyuhuapi → Mañihuales → Coyhaique → Cerro Castillo → Tranquilo → Cochrane → Tortel → Puerto Yungay → Villa O'Higgins -->
+      <polyline
+        points="500,45 488,100 472,158 445,210 410,258 378,308 372,358 366,408 360,465 353,520 344,572 335,622 322,668 312,715"
+        fill="none" stroke="#D4860A" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- pequeñas flechas indicadoras bajada -->
+      <polygon points="357,430 353,445 349,430" fill="#D4860A" opacity="0.9"/>
+      <polygon points="340,588 336,603 332,588" fill="#D4860A" opacity="0.9"/>
+
+      <!-- ===== RUTA REGRESO por Argentina (línea azul punteada) ===== -->
+      <!-- Villa O'Higgins → Cochrane → Chile Chico → Paso Roballos/Los Antiguos (ARG) → subida por lago → Coyhaique → Mañihuales → La Junta → Chaitén → Ferry → Puerto Montt -->
+      <polyline
+        points="312,715 325,668 338,622 355,572 385,545 440,538 490,530 520,510 500,460 488,408 480,358 470,308 450,258 430,210 460,158 476,100 492,45"
+        fill="none" stroke="#1B6CA8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10,5"/>
+
+      <!-- flechas regreso -->
+      <polygon points="487,415 492,400 497,415" fill="#1B6CA8" opacity="0.8"/>
+      <polygon points="449,264 454,249 459,264" fill="#1B6CA8" opacity="0.8"/>
+
+      <!-- Ferry lines (azul claro punteado) -->
+      <path d="M472,158 Q405,168 358,178 Q405,188 472,196" fill="none" stroke="#5BB3DD" stroke-width="1.8" stroke-dasharray="5,4" opacity="0.7"/>
+      <path d="M410,258 Q350,264 310,272 Q350,280 410,286" fill="none" stroke="#5BB3DD" stroke-width="1.8" stroke-dasharray="5,4" opacity="0.7"/>
+      <path d="M322,668 Q290,668 268,668 Q290,680 322,680" fill="none" stroke="#5BB3DD" stroke-width="1.8" stroke-dasharray="5,4" opacity="0.7"/>
+
+      <!-- Desvío Caleta Tortel -->
+      <path d="M335,622 Q280,635 260,645" fill="none" stroke="rgba(196,82,42,0.7)" stroke-width="1.8" stroke-dasharray="4,3"/>
+      <circle cx="260" cy="645" r="5" fill="#C4522A" opacity="0.9"/>
+      <text x="180" y="642" fill="#FFAA80" font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700" text-anchor="end">CALETA TORTEL</text>
+      <text x="180" y="653" fill="rgba(255,255,255,0.4)" font-family="'Barlow Condensed',sans-serif" font-size="10" text-anchor="end">Desvío · Día 7</text>
+      <line x1="182" y1="645" x2="254" y2="645" stroke="rgba(196,82,42,0.25)" stroke-width="0.5"/>
+
+      <!-- Desvío Futaleufú (NOT en este itinerario — omitido) -->
+
+      <!-- ===== STOPS BAJADA ===== -->
+      <!-- Puerto Montt -->
+      <circle cx="500" cy="45" r="9" fill="#D4860A" filter="url(#glow)"/>
+      <circle cx="500" cy="45" r="4" fill="#fff"/>
+      <text x="516" y="40" fill="#FFE0A0" font-family="'Barlow Condensed',sans-serif" font-size="13" font-weight="700">PUERTO MONTT</text>
+      <text x="516" y="53" fill="rgba(255,255,255,0.45)" font-family="'Barlow Condensed',sans-serif" font-size="10">Km 0 · Inicio y fin · Día 1 &amp; 15</text>
+
+      <!-- Hornopirén -->
+      <circle cx="472" cy="158" r="7" fill="#2D5A27"/>
+      <circle cx="472" cy="158" r="3" fill="#fff"/>
+      <text x="486" y="153" fill="rgba(255,255,255,0.88)" font-family="'Barlow Condensed',sans-serif" font-size="12" font-weight="700">HORNOPIRÉN</text>
+      <text x="486" y="165" fill="rgba(255,255,255,0.45)" font-family="'Barlow Condensed',sans-serif" font-size="10">Km 120 · Ferry ⛴ · Día 1</text>
+
+      <!-- Chaitén -->
+      <circle cx="445" cy="210" r="7" fill="#2D5A27"/>
+      <circle cx="445" cy="210" r="3" fill="#fff"/>
+      <text x="459" y="205" fill="rgba(255,255,255,0.88)" font-family="'Barlow Condensed',sans-serif" font-size="12" font-weight="700">CHAITÉN</text>
+      <text x="459" y="217" fill="rgba(255,255,255,0.45)" font-family="'Barlow Condensed',sans-serif" font-size="10">Km 220 · Día 2</text>
+
+      <!-- La Junta -->
+      <circle cx="410" cy="258" r="5" fill="#fff" opacity="0.75"/>
+      <text x="424" y="262" fill="rgba(255,255,255,0.7)" font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700">La Junta</text>
+      <text x="424" y="272" fill="rgba(255,255,255,0.4)" font-family="'Barlow Condensed',sans-serif" font-size="10">Km 390 · Día 3</text>
+
+      <!-- Puyuhuapi -->
+      <circle cx="378" cy="308" r="7" fill="#D4860A"/>
+      <circle cx="378" cy="308" r="3" fill="#fff"/>
+      <text x="392" y="303" fill="rgba(255,255,255,0.9)" font-family="'Barlow Condensed',sans-serif" font-size="12" font-weight="700">PUYUHUAPI</text>
+      <text x="392" y="315" fill="rgba(255,255,255,0.45)" font-family="'Barlow Condensed',sans-serif" font-size="10">Km 445 · ♨ Termas · Día 3</text>
+
+      <!-- P.N. Queulat -->
+      <circle cx="372" cy="348" r="5" fill="#2D5A27" opacity="0.9"/>
+      <text x="386" y="352" fill="rgba(255,255,255,0.65)" font-family="'Barlow Condensed',sans-serif" font-size="11">P.N. Queulat · Día 4</text>
+
+      <!-- Coyhaique -->
+      <circle cx="366" cy="408" r="8" fill="#D4860A" filter="url(#glow)"/>
+      <circle cx="366" cy="408" r="4" fill="#fff"/>
+      <text x="380" y="403" fill="#FFE0A0" font-family="'Barlow Condensed',sans-serif" font-size="13" font-weight="700">COYHAIQUE</text>
+      <text x="380" y="416" fill="rgba(255,255,255,0.45)" font-family="'Barlow Condensed',sans-serif" font-size="10">Km 780 · Días 4–5</text>
+
+      <!-- Cerro Castillo -->
+      <circle cx="360" cy="465" r="6" fill="#C4522A"/>
+      <circle cx="360" cy="465" r="3" fill="#fff"/>
+      <text x="374" y="460" fill="rgba(255,255,255,0.88)" font-family="'Barlow Condensed',sans-serif" font-size="12" font-weight="700">CERRO CASTILLO</text>
+      <text x="374" y="472" fill="rgba(255,255,255,0.45)" font-family="'Barlow Condensed',sans-serif" font-size="10">Km 880 · ⛰ Trek · Día 5</text>
+
+      <!-- Río Tranquilo -->
+      <circle cx="353" cy="520" r="7" fill="#1B6CA8"/>
+      <circle cx="353" cy="520" r="3" fill="#fff"/>
+      <text x="367" y="515" fill="rgba(255,255,255,0.88)" font-family="'Barlow Condensed',sans-serif" font-size="12" font-weight="700">RÍO TRANQUILO</text>
+      <text x="367" y="527" fill="rgba(255,255,255,0.45)" font-family="'Barlow Condensed',sans-serif" font-size="10">Km 980 · ⛵ Capillas Mármol · Día 6</text>
+
+      <!-- Cochrane -->
+      <circle cx="344" cy="572" r="7" fill="#2D5A27"/>
+      <circle cx="344" cy="572" r="3" fill="#fff"/>
+      <text x="358" y="567" fill="rgba(255,255,255,0.88)" font-family="'Barlow Condensed',sans-serif" font-size="12" font-weight="700">COCHRANE</text>
+      <text x="358" y="579" fill="rgba(255,255,255,0.45)" font-family="'Barlow Condensed',sans-serif" font-size="10">Km 1.116 · Abastecimiento · Día 7</text>
+
+      <!-- Puerto Yungay / Barcaza -->
+      <circle cx="322" cy="668" r="5" fill="#1B6CA8" opacity="0.9"/>
+      <text x="336" y="671" fill="rgba(100,190,255,0.8)" font-family="'Barlow Condensed',sans-serif" font-size="11">Puerto Yungay · Barcaza · Día 8</text>
+
+      <!-- VILLA O'HIGGINS — FINAL -->
+      <circle cx="312" cy="715" r="11" fill="#C4522A" filter="url(#glow)"/>
+      <circle cx="312" cy="715" r="5" fill="#fff"/>
+      <text x="330" y="708" fill="#FFCCAA" font-family="'Barlow Condensed',sans-serif" font-size="14" font-weight="700">VILLA O'HIGGINS ★</text>
+      <text x="330" y="722" fill="rgba(255,255,255,0.55)" font-family="'Barlow Condensed',sans-serif" font-size="10">Km 1.247 · FIN DE LA RUTA 7 · Días 8–9</text>
+
+      <!-- ===== REGRESO labels ===== -->
+      <!-- Chile Chico / Paso Argentina -->
+      <circle cx="490" cy="530" r="5" fill="#1B6CA8" opacity="0.85"/>
+      <text x="505" y="534" fill="rgba(100,190,255,0.75)" font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700">Chile Chico → ARG</text>
+      <text x="505" y="544" fill="rgba(100,190,255,0.45)" font-family="'Barlow Condensed',sans-serif" font-size="10">Paso Roballos · Día 10</text>
+
+      <!-- Los Antiguos ARG -->
+      <circle cx="540" cy="510" r="4" fill="#1B6CA8" opacity="0.6"/>
+      <text x="554" y="514" fill="rgba(100,190,255,0.6)" font-family="'Barlow Condensed',sans-serif" font-size="10">Los Antiguos (ARG) · Día 11</text>
+
+      <!-- Andes snow -->
+      <path d="M800 40 L815 10 L830 40Z" fill="rgba(255,255,255,0.13)"/>
+      <path d="M840 70 L858 35 L876 70Z" fill="rgba(255,255,255,0.1)"/>
+      <path d="M770 110 L784 82 L798 110Z" fill="rgba(255,255,255,0.09)"/>
+      <path d="M820 180 L833 155 L846 180Z" fill="rgba(255,255,255,0.08)"/>
+
+      <!-- LEGEND -->
+      <rect x="18" y="626" width="240" height="110" rx="4" fill="rgba(0,0,0,0.6)"/>
+      <text x="28" y="645" fill="rgba(255,255,255,0.8)" font-family="'Barlow Condensed',sans-serif" font-size="11" letter-spacing="2">LEYENDA</text>
+      <circle cx="34" cy="659" r="4" fill="#D4860A"/>
+      <text x="44" y="663" fill="rgba(255,255,255,0.6)" font-family="'Barlow Condensed',sans-serif" font-size="11">Ciudad / pueblo</text>
+      <line x1="28" y1="677" x2="44" y2="677" stroke="#D4860A" stroke-width="2.5"/>
+      <text x="50" y="681" fill="rgba(255,255,255,0.6)" font-family="'Barlow Condensed',sans-serif" font-size="11">Ruta bajada (ida al sur)</text>
+      <line x1="28" y1="695" x2="44" y2="695" stroke="#1B6CA8" stroke-width="2.5" stroke-dasharray="7,4"/>
+      <text x="50" y="699" fill="rgba(255,255,255,0.6)" font-family="'Barlow Condensed',sans-serif" font-size="11">Regreso vía Argentina</text>
+      <line x1="28" y1="713" x2="44" y2="713" stroke="#5BB3DD" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="50" y="717" fill="rgba(255,255,255,0.6)" font-family="'Barlow Condensed',sans-serif" font-size="11">Ferrys / barcazas</text>
+      <circle cx="34" cy="728" r="6" fill="#C4522A"/>
+      <text x="44" y="732" fill="rgba(255,255,255,0.6)" font-family="'Barlow Condensed',sans-serif" font-size="11">Villa O'Higgins (meta final)</text>
+
+      <!-- N arrow -->
+      <g transform="translate(955,30)">
+        <circle cx="0" cy="0" r="18" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <path d="M0,-12 L4,4 L0,1 L-4,4Z" fill="#fff"/>
+        <text x="0" y="22" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-family="'Barlow Condensed',sans-serif" font-size="12" letter-spacing="1">N</text>
+      </g>
+
+      <!-- Watermarks -->
+      <text x="840" y="680" fill="rgba(255,255,255,0.07)" font-family="'Playfair Display',serif" font-size="24" font-style="italic" transform="rotate(-28,840,680)">ARGENTINA</text>
+      <text x="170" y="100" fill="rgba(255,255,255,0.06)" font-family="'Playfair Display',serif" font-size="18" font-style="italic">PACÍFICO</text>
+      <text x="200" y="500" fill="rgba(255,255,255,0.05)" font-family="'Playfair Display',serif" font-size="20" font-style="italic">PATAGONIA</text>
+    </svg>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ITINERARIO -->
+<section id="ruta">
+  <p class="section-tag">Planificación día a día · Ida y vuelta</p>
+  <h2>Itinerario completo</h2>
+  <p style="font-size:14px;color:var(--niebla);margin-bottom:1.5rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;">Haz clic en cada día para ver detalles completos</p>
+
+  <!-- BAJADA -->
+  <div class="phase bajada">
+    <span class="pi">↓</span>
+    <div>
+      <h3>Bajada — Días 1 al 8</h3>
+      <p>Puerto Montt → Villa O'Higgins · ~1.247 km · Ruta 7 completa hacia el sur</p>
+    </div>
+  </div>
+  <div class="timeline tl-bajada">
+
+    <!-- DÍA 1 -->
+    <div class="day">
+      <div class="day-dot"></div>
+      <div class="day-hdr">
+        <div class="day-num">1<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Puerto Montt → Hornopirén</div>
+          <div class="day-sub">~180 km · Ferry La Arena–Puelche (30 min) · P.N. Hornopirén</div>
+          <div class="day-tags"><span class="t g">Valle Cochamó</span><span class="t a">Ferry La Arena</span><span class="t o">Hornopirén</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>Salida temprana desde Puerto Montt bordeando el Estuario de Reloncaví. Parada estratégica en Cochamó — el "Yosemite chileno" con sus monolitos de granito — para estirar las piernas. Primer ferry del viaje: Caleta La Arena → Caleta Puelche (30 min, por orden de llegada, cada 45–60 min en verano). Llega con 1h de anticipación. Pernocta en Hornopirén.</p>
+        <p><strong>Clave:</strong> hoy es el día del gran abastecimiento. Puerto Montt tiene el último supermercado grande (Unimarc/Líder), múltiples ferreterías y talleres. Carga el tanque lleno y lleva efectivo abundante.</p>
+        <div class="detail-grid">
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Tanque lleno en Puerto Montt</li><li>Copec Hornopirén — recarga obligatoria</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento</h4><ul><li>Hostería Hornopirén</li><li>Camping Río Blanco</li><li>Cabañas Pichi Juan</li></ul></div>
+          <div class="db hi"><h4>🥾 Actividades</h4><ul><li>Parada en Cochamó — mirador Río</li><li>P.N. Hornopirén — sendero corto volcán</li></ul></div>
+          <div class="db al"><h4>⚠ Mañana: Ferry clave</h4><ul><li>Ferry Hornopirén–Caleta Gonzalo: 4h</li><li>Sale temprano — confirmar hora en Naviera Austral</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 2 -->
+    <div class="day">
+      <div class="day-dot ferry"></div>
+      <div class="day-hdr">
+        <div class="day-num">2<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Ferry Hornopirén → Caleta Gonzalo → Chaitén</div>
+          <div class="day-sub">Ferry 4h + 55 km · Parque Pumalín · Volcán Chaitén</div>
+          <div class="day-tags"><span class="t a">Ferry 4 horas</span><span class="t g">Parque Pumalín</span><span class="t r">Volcán Chaitén</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>Ferry Hornopirén→Caleta Gonzalo: 4 horas de fiordos, bosque valdiviano y montañas nevadas. Uno de los trayectos más espectaculares del viaje. En Caleta Gonzalo, el Parque Pumalín recibe con senderos de alerces milenarios y vistas al volcán Michimahuida. Luego, 55 km de ripio lleva a Chaitén, donde el volcán homónimo destruyó el pueblo en 2008.</p>
+        <div class="detail-grid">
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Copec Chaitén — carga obligatoria</li><li>No hay combustible en Caleta Gonzalo</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento</h4><ul><li>Camping Sector Cascadas (Pumalín)</li><li>Cabañas Chaitén</li><li>Hostería Brisas del Mar</li></ul></div>
+          <div class="db hi"><h4>🥾 Trekking</h4><ul><li>Alerces Milenarios (Pumalín) — 1.5h fácil</li><li>Volcán Chaitén — 3–4h, nivel medio, vistas increíbles</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 3 -->
+    <div class="day">
+      <div class="day-dot hl"></div>
+      <div class="day-hdr">
+        <div class="day-num">3<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Chaitén → La Junta → Puyuhuapi ★ + Termas</div>
+          <div class="day-sub">~225 km · 3.5h · Fiordo Puyuhuapi · Termas en lancha</div>
+          <div class="day-tags"><span class="t o">Termas Puyuhuapi</span><span class="t a">Fiordo</span><span class="t g">La Junta</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>Jornada larga pero muy variada. La Junta a medio camino para combustible y almuerzo — vale la pena revisar la Reserva Lago Rosselot si hay tiempo. Puyuhuapi, fundado por colonos alemanes en 1935, está envuelto en niebla y humo de chimenea en un fiordo profundo. Las termas Ventisquero son accesibles solo en bote desde el pueblo — reservar al llegar.</p>
+        <div class="detail-grid">
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>La Junta — nafta y diesel</li><li>Puyuhuapi — solo diesel</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento</h4><ul><li>Lodge & Spa Puyuhuapi (exclusivo)</li><li>Hostería Alemana</li><li>Cabañas El Pangue</li></ul></div>
+          <div class="db hi"><h4>🌊 Actividades</h4><ul><li>Termas Ventisquero — lancha, 3h</li><li>Kayak por el fiordo</li><li>Kuchen alemán en el pueblo</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 4 -->
+    <div class="day">
+      <div class="day-dot trek"></div>
+      <div class="day-hdr">
+        <div class="day-num">4<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Parque Nacional Queulat ★★ → Coyhaique</div>
+          <div class="day-sub">~20 km Queulat + ~220 km hasta Coyhaique · Ventisquero Colgante</div>
+          <div class="day-tags"><span class="t r">Ventisquero Colgante</span><span class="t g">Bosque Encantado</span><span class="t o">Coyhaique</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>Madrugar para entrar al P.N. Queulat antes de las 9am — la luz de mañana en el glaciar es extraordinaria. El Ventisquero Colgante, un glaciar suspendido entre paredes de roca con cascadas al vacío, es el ícono más fotogénico de la CA norte. Reservar entrada en aspticket.cl antes del viaje. Por la tarde, 220 km hasta Coyhaique para el gran abastecimiento del tramo sur.</p>
+        <div class="detail-grid">
+          <div class="db hi"><h4>🥾 P.N. Queulat</h4><ul><li>Ventisquero Colgante — 3.5 km, 2–3h, fácil</li><li>Bosque Encantado — 4.5 km, 2–4h, fácil</li><li>Reservar en aspticket.cl — obligatorio 2024+</li></ul></div>
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Villa Mañihuales — recarga en ruta</li><li>Múltiples estaciones en Coyhaique</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento Coyhaique</h4><ul><li>Hostal Gladys (clásico viajero)</li><li>Hotel Loberías del Sur</li><li>Camping Municipal</li></ul></div>
+          <div class="db al"><h4>🛒 Coyhaique</h4><ul><li>Supermercado Unimarc — abastecimiento completo</li><li>ATM — retirar efectivo</li><li>Ferreterías y repuestos auto</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 5 -->
+    <div class="day">
+      <div class="day-dot trek"></div>
+      <div class="day-hdr">
+        <div class="day-num">5<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Coyhaique → Villa Cerro Castillo ★★★ Trek</div>
+          <div class="day-sub">~100 km · 1.5h + trek completo a la laguna turquesa</div>
+          <div class="day-tags"><span class="t r">Trek emblema</span><span class="t g">Laguna turquesa</span><span class="t o">Glaciar colgante</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>El trekking más emblemático de la Carretera Austral. La Laguna Cerro Castillo, al pie de las torres de basalto negro y el glaciar colgante, es comparable a Torres del Paine pero sin la masificación. Dedicar el día completo: llegar al pueblo temprano, iniciar el sendero antes de las 10am para tener margen. Es una jornada exigente que vale cada paso.</p>
+        <div class="detail-grid">
+          <div class="db hi"><h4>🥾 Trek Laguna Cerro Castillo</h4><ul><li>14 km ida y vuelta — 6–8h, difícil</li><li>Subida final por morrena glaciar, 1h extra</li><li>Llevar comida, agua 3L, capas y bastones</li></ul></div>
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Villa Cerro Castillo — cargar aquí</li><li>Tramo sur requiere mucha autonomía</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento</h4><ul><li>Camping El Puesto (dentro del parque)</li><li>Cabañas Don Nito (pueblo)</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 6 -->
+    <div class="day">
+      <div class="day-dot hl"></div>
+      <div class="day-hdr">
+        <div class="day-num">6<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Cerro Castillo → Puerto Río Tranquilo ★★★ Capillas de Mármol</div>
+          <div class="day-sub">~100 km · Lago General Carrera · Navegación a las Capillas</div>
+          <div class="day-tags"><span class="t a">Capillas de Mármol</span><span class="t o">Lago turquesa</span><span class="t r">Navegar imperdible</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>El tramo de carretera bordeando el Lago General Carrera es uno de los más espectaculares del planeta — agua turquesa intenso contra montañas nevadas. Puerto Río Tranquilo es la base para las Capillas de Mármol: cuevas de mármol esculpidas por el lago durante milenios, con colores que cambian según la luz. Tour en la mañana es imprescindible.</p>
+        <div class="detail-grid">
+          <div class="db hi"><h4>⛵ Capillas de Mármol</h4><ul><li>Tour 1.5h en lancha — ~$18.000 CLP persona</li><li>Salir a las 9–10am — mejor luz y color</li><li>Cueva de la Catedral — versión extendida</li></ul></div>
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Puerto Río Tranquilo — recarga</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento</h4><ul><li>Cabañas Marbella</li><li>Hostal Los Pinos</li><li>Camping El Puesto</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 7 -->
+    <div class="day">
+      <div class="day-dot hl"></div>
+      <div class="day-hdr">
+        <div class="day-num">7<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Río Tranquilo → Cochrane → Caleta Tortel ★ (desvío)</div>
+          <div class="day-sub">~230 km + 23 km desvío · El pueblo sin calles · Río Baker</div>
+          <div class="day-tags"><span class="t g">Pasarelas ciprés</span><span class="t a">Río Baker</span><span class="t o">Pueblo único</span><span class="t r">Desvío obligatorio</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>Jornada larga pero con dos hitos extraordinarios. En Cochrane, carga combustible y abastecimiento completo — es la última ciudad con todos los servicios antes de Villa O'Higgins. El desvío de 23 km a Caleta Tortel es imprescindible: un pueblo aferrado a un fiordo sin ninguna calle, todo pasarelas de madera de ciprés. Pernocta en Tortel.</p>
+        <div class="detail-grid">
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Cochrane — última estación segura de servicios completos</li><li>Llevar bidón extra a partir de aquí</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento Tortel</h4><ul><li>Hostal Río Baker</li><li>Cabañas Tortel</li><li>Camping El Mirador</li></ul></div>
+          <div class="db hi"><h4>🥾 Actividades Tortel</h4><ul><li>Cerro Bandera — panorámica del pueblo, 2h moderado</li><li>Pasarelas completas — recorrido 2–3h</li><li>Excursión al Glaciar Montt (opcional, 1 día en lancha)</li></ul></div>
+          <div class="db al"><h4>⚠ Mañana: Barcaza Yungay</h4><ul><li>Ferry Puerto Yungay → Río Bravo, 1h, gratuito</li><li>Sin reserva, por orden de llegada</li><li>Verificar horario — sale pocas veces al día</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 8 -->
+    <div class="day is-final">
+      <div class="day-dot fin"></div>
+      <div class="day-hdr">
+        <div class="day-num fin-n">8<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Tortel → Barcaza Puerto Yungay → Villa O'Higgins ★★★</div>
+          <div class="day-sub">~130 km + Barcaza 1h · KM 1.247 · FIN DE LA RUTA 7</div>
+          <div class="day-tags"><span class="t r">Meta final</span><span class="t a">Barcaza gratuita</span><span class="t o">Campos de Hielo Sur</span><span class="t g">Glaciar Río Mosco</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>El último tramo de la Carretera Austral es de ripio estrecho y exigente — exactamente lo que el Rubicon fue diseñado para enfrentar. Desde Tortel, 50 km de ripio hasta Puerto Yungay. La barcaza gratuita cruza el Fiordo Mitchell en 1 hora hasta Río Bravo. Luego, 80 km más de ripio puro hasta Villa O'Higgins: el fin del mundo, el Km 1.247.</p>
+        <p>Villa O'Higgins es la puerta de acceso a los Campos de Hielo Sur. El sendero al Glaciar Río Mosco parte desde el pueblo mismo. Pernocta aquí para explorar con calma — mañana comienza el regreso.</p>
+        <div class="detail-grid">
+          <div class="db hi"><h4>🥾 Actividades</h4><ul><li>Glaciar Río Mosco — sendero 2–3h, nivel medio desde el pueblo</li><li>Laguna Los Cisnes — fácil, 1.5h</li><li>Mirador panorámico del pueblo — 1h</li></ul></div>
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Villa O'Higgins tiene combustible (limitado)</li><li>Llevar bidón desde Cochrane como respaldo</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento</h4><ul><li>Hostal Rumbo Sur</li><li>Camping Puesto Canogas</li><li>Cabañas Villa O'Higgins</li></ul></div>
+          <div class="db al"><h4>↩ Planificación regreso</h4><ul><li>Regreso vía Chile Chico → Argentina → Coyhaique</li><li>Salida Día 10 rumbo al norte</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end tl-bajada -->
+
+  <!-- FINAL BOX -->
+  <div class="final-box">
+    <span class="final-km">Km 1.247</span>
+    <h3>Villa O'Higgins — Fin de la Ruta 7</h3>
+    <p>Has llegado al punto final de la Carretera Austral. Más allá de este punto no hay carretera — solo glaciares, hielo y el infinito patagónico. El regreso será diferente: aprovechando la ruta por Chile Chico y Argentina (Paso Roballos / Los Antiguos) para ver paisajes completamente nuevos y no repetir los mismos kilómetros de ripio.</p>
+  </div>
+
+  <!-- REGRESO -->
+  <div class="phase regreso">
+    <span class="pi">↑</span>
+    <div>
+      <h3>Regreso — Días 9 al 15</h3>
+      <p>Villa O'Higgins → Puerto Montt · Vía Chile Chico → Argentina → Coyhaique · Nuevos paisajes en el regreso</p>
+    </div>
+  </div>
+  <div class="timeline tl-regreso">
+
+    <!-- DÍA 9 -->
+    <div class="day">
+      <div class="day-dot ret"></div>
+      <div class="day-hdr">
+        <div class="day-num ret-n">9<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Villa O'Higgins — Descanso + Glaciar Río Mosco completo</div>
+          <div class="day-sub">Día de exploración local · Preparar regreso</div>
+          <div class="day-tags"><span class="t r">Campos de Hielo Sur</span><span class="t g">Glaciar</span><span class="t gr">Descanso</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>Día libre en Villa O'Higgins para explorar a fondo el pueblo más remoto de la Ruta 7 y sus alrededores. El Glaciar Río Mosco — con vistas a los Campos de Hielo Sur — es el hito natural obligatorio. Por la tarde, preparar el Rubicon para el regreso y planificar la ruta por Argentina.</p>
+        <div class="detail-grid">
+          <div class="db hi"><h4>🥾 Actividades</h4><ul><li>Glaciar Río Mosco — sendero completo 4–5h, nivel medio</li><li>Laguna Los Cisnes — 1.5h fácil</li><li>Avistamiento de cóndores en los pasos elevados</li></ul></div>
+          <div class="db al"><h4>🗺 Planificar ruta regreso</h4><ul><li>Verificar condiciones Paso Roballos (Chile Chico→ARG)</li><li>Ruta: Cochrane → Chile Chico → Los Antiguos (ARG) → Coyhaique</li><li>Confirmar apertura del paso (a veces cerrado)</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 10 -->
+    <div class="day">
+      <div class="day-dot ferry"></div>
+      <div class="day-hdr">
+        <div class="day-num ret-n">10<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Villa O'Higgins → Barcaza → Cochrane → Chile Chico</div>
+          <div class="day-sub">Barcaza + ~300 km · Lago General Carrera por el lado argentino</div>
+          <div class="day-tags"><span class="t a">Barcaza regreso</span><span class="t o">Chile Chico</span><span class="t a">Lago G. Carrera</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>Jornada larga de regreso. Barcaza Río Bravo → Puerto Yungay y vuelta en ripio hasta el cruce. Esta vez, en vez de subir directo por la ruta 7, se desvía hacia Chile Chico, a orillas del Lago General Carrera en el lado sur. Desde Chile Chico, al día siguiente se cruza a Argentina.</p>
+        <div class="detail-grid">
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Chile Chico — tiene estación de servicio y ATM</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento Chile Chico</h4><ul><li>Hotel Austral</li><li>Cabañas Don Luis</li><li>Camping Municipal Chile Chico</li></ul></div>
+          <div class="db al"><h4>⚠ Importante</h4><ul><li>Chile Chico tiene ATM — retirar pesos chilenos Y argentinos</li><li>Verificar documentación del vehículo para cruce de aduana</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 11 -->
+    <div class="day">
+      <div class="day-dot ret"></div>
+      <div class="day-hdr">
+        <div class="day-num ret-n">11<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Chile Chico → Paso Roballos → Los Antiguos (ARG) → Perito Moreno</div>
+          <div class="day-sub">~120 km ripio en Chile + cruce internacional · Estepa patagónica argentina</div>
+          <div class="day-tags"><span class="t r">Cruce Chile–Argentina</span><span class="t gr">Paso Roballos</span><span class="t o">Los Antiguos ARG</span><span class="t a">Documentos clave</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+
+        <p>El cruce fronterizo por el <strong>Paso Roballos</strong> (también llamado Paso Lago Cochrane) conecta Chile Chico con Los Antiguos en la provincia de Santa Cruz, Argentina. El camino desde Chile Chico al paso son ~120 km de ripio — terreno ideal para el Rubicon. El paisaje cambia radicalmente: de los bosques húmedos patagónicos a la estepa árida y ventosa de la Patagonia argentina. Planifica salir temprano para tener margen en la aduana.</p>
+
+        <div style="background:#FEF9EC;border:1px solid #F5D78A;border-radius:6px;padding:1rem 1.2rem;margin:.8rem 0 1rem;">
+          <p style="font-size:13px;color:#5A3A00;margin:0;line-height:1.7;"><strong style="font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;font-size:12px;">⚠ Confirma antes de salir:</strong><br>
+          El Paso Roballos no opera todos los días del año y puede cerrarse por condiciones climáticas o feriados. <strong>Llama con anticipación al SAG/PDI de Chile Chico o consulta en gendarmeria.cl y migraciones.gov.ar para verificar que el paso esté operativo el día que planeas cruzar.</strong> Horario habitual: 9:00–18:00h (verano).</p>
+        </div>
+
+        <div class="detail-grid">
+
+          <div class="db al">
+            <h4>🛂 Documentos — lado chileno (salida)</h4>
+            <ul>
+              <li><strong>Pasaporte vigente</strong> de todos los ocupantes — la cédula chilena no es válida para ingresar a Argentina en vehículo propio</li>
+              <li><strong>Permiso de Circulación</strong> del vehículo al día</li>
+              <li><strong>SOAP vigente</strong> (seguro obligatorio chileno)</li>
+              <li><strong>Declaración jurada de salida temporal del vehículo</strong> — se tramita en el Servicio Nacional de Aduanas (aduana.cl) o en una agencia de aduanas en Chile Chico. Permite sacar el auto del país sin pagar impuestos de exportación</li>
+              <li>Revisión del PDI (Policía de Investigaciones): control de personas</li>
+              <li>Revisión del SAG (Servicio Agrícola y Ganadero): <strong>no puedes llevar frutas, verduras, carnes frescas, lácteos ni semillas</strong> — serán decomisados en el control fitosanitario</li>
+            </ul>
+          </div>
+
+          <div class="db al" style="border-left-color:#1B6CA8;background:#EFF6FC;">
+            <h4>🛂 Documentos — lado argentino (entrada)</h4>
+            <ul>
+              <li><strong>Pasaporte vigente</strong> — presentar a Migraciones Argentina</li>
+              <li><strong>Permiso del vehículo</strong>: la documentación chilena de salida temporal es aceptada por la Aduana argentina</li>
+              <li><strong>Seguro de auto para Argentina</strong>: el SOAP chileno <em>no</em> tiene validez en Argentina. Debes contratar un <strong>seguro de responsabilidad civil para Argentina</strong> antes de cruzar — se puede gestionar online (ej. Assist Card, seguros fronterizos) o en corredoras en Chile Chico</li>
+              <li>Declaración de bienes e ingreso de divisas si llevas más de USD 10.000 en efectivo</li>
+              <li>Control del SENASA (equivalente al SAG): mismas restricciones de alimentos, más estricto con productos de origen animal</li>
+            </ul>
+          </div>
+
+          <div class="db" style="border-left-color:#2D5A27;background:#EEF7EE;">
+            <h4>🚙 El vehículo en Argentina — qué necesitas</h4>
+            <ul>
+              <li><strong>Seguro de responsabilidad civil para Argentina</strong> (obligatorio — sin esto no puedes circular legalmente)</li>
+              <li>El <strong>permiso de exportación temporal del vehículo</strong> tiene una vigencia de hasta 8 meses — suficiente para el regreso</li>
+              <li>Lleva el <strong>contrato de compra-venta o escritura del vehículo</strong> si eres el dueño, o una autorización notarial si el vehículo está a nombre de otra persona</li>
+              <li>En Argentina se circula con <strong>velocímetro en km/h</strong> (igual que en Chile) y se respetan señales internacionales</li>
+              <li>Llevar <strong>matafuego y balizas</strong> — son obligatorios en Argentina y se revisan en controles de ruta</li>
+              <li>Los Rubicon y 4x4 no tienen restricciones especiales en rutas argentinas</li>
+            </ul>
+          </div>
+
+          <div class="db" style="border-left-color:#8A5FC0;background:#F5F0FD;">
+            <h4>💵 Dinero en Argentina</h4>
+            <ul>
+              <li>La moneda es el <strong>Peso Argentino (ARS)</strong> — lleva efectivo ya que en zonas rurales patagónicas los comercios no siempre aceptan tarjetas extranjeras</li>
+              <li>Retira pesos argentinos en <strong>Chile Chico</strong> antes de cruzar (algunos cajeros permiten retiro en ARS con tarjeta chilena, o cambia en casas de cambio)</li>
+              <li>También puedes pagar con <strong>dólares en efectivo</strong> en muchos establecimientos en Argentina — aceptado ampliamente en la Patagonia turística</li>
+              <li>En Los Antiguos y Perito Moreno hay cajeros ATM y casas de cambio</li>
+              <li>El combustible en Argentina puede ser <strong>más barato que en Chile</strong> en pesos, pero varía según el tipo de cambio del día</li>
+            </ul>
+          </div>
+
+          <div class="db fu">
+            <h4>⛽ Combustible en Argentina</h4>
+            <ul>
+              <li>Las estaciones de servicio en Argentina usan el sistema <strong>YPF, Shell, Axion</strong></li>
+              <li>Cargar tanque completo en <strong>Los Antiguos</strong> y en <strong>Perito Moreno</strong></li>
+              <li>La bencina equivalente a la 95 chilena es la <strong>Nafta Super</strong> o <strong>Nafta Premium</strong> en Argentina</li>
+              <li>Pago: efectivo en ARS o dólares — tarjetas extranjeras a veces aceptadas</li>
+            </ul>
+          </div>
+
+          <div class="db sl">
+            <h4>🏕 Alojamiento y ruta del día</h4>
+            <ul>
+              <li><strong>Los Antiguos</strong>: pueblo famoso por la cereza patagónica, muy tranquilo y pintoresco — vale almorzar aquí</li>
+              <li><strong>Perito Moreno (ARG)</strong>: ciudad de servicios, no confundir con el glaciar Perito Moreno que está en El Calafate</li>
+              <li>Hostería Los Antiguos · Hotel Americano (Perito Moreno ARG)</li>
+              <li>Distancia Chile Chico → Los Antiguos: ~8 km desde el paso · Los Antiguos → Perito Moreno: ~60 km por Ruta 43</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div style="background:#F0F7FF;border:1px solid #BDD8F5;border-radius:6px;padding:1rem 1.2rem;margin-top:1rem;">
+          <p style="font-size:13px;color:#1B3A5A;margin:0;line-height:1.75;">
+            <strong style="font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;font-size:12px;">📋 Checklist cruce fronterizo — preparar en Chile Chico</strong><br>
+            ☐ Pasaportes vigentes de todos los ocupantes<br>
+            ☐ Declaración jurada de salida temporal del vehículo (Aduana Chile)<br>
+            ☐ Seguro de responsabilidad civil para Argentina contratado<br>
+            ☐ Matafuego y balizas en el vehículo<br>
+            ☐ Sin frutas, verduras, carnes frescas ni lácteos en el vehículo (SAG/SENASA)<br>
+            ☐ Efectivo en pesos argentinos y/o dólares<br>
+            ☐ Verificar apertura del Paso Roballos (gendarmeria.cl / migraciones.gov.ar)<br>
+            ☐ Tanque de combustible lleno antes de salir de Chile Chico
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DÍA 12 -->
+    <div class="day">
+      <div class="day-dot ret"></div>
+      <div class="day-hdr">
+        <div class="day-num ret-n">12<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Perito Moreno (ARG) → Paso Coyhaique Alto → Coyhaique</div>
+          <div class="day-sub">~280 km · Regreso a Chile por Paso Coyhaique Alto · Valle Simpson</div>
+          <div class="day-tags"><span class="t a">Regreso a Chile</span><span class="t o">Valle del Simpson</span><span class="t o">Coyhaique</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>Desde Argentina se regresa a Chile por el Paso Coyhaique Alto (también llamado Paso Huemules), un cruce sencillo y bien habilitado. El descenso por el Valle del Río Simpson hacia Coyhaique es espectacular — cañones, cascadas y bosque nativo. Coyhaique da bienvenida con servicios completos para una noche de descanso real.</p>
+        <div class="detail-grid">
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Coyhaique — varias estaciones, precios chilenos</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento</h4><ul><li>Mismo hostal de la bajada o alternativa</li><li>Hotel Loberías del Sur</li></ul></div>
+          <div class="db hi"><h4>🗺 Opciones</h4><ul><li>Valle del Simpson — mirador y cascadas, 1–2h</li><li>Cena y descanso en Coyhaique</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 13 -->
+    <div class="day">
+      <div class="day-dot ret"></div>
+      <div class="day-hdr">
+        <div class="day-num ret-n">13<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Coyhaique → Mañihuales → Puerto Cisnes (desvío) → La Junta</div>
+          <div class="day-sub">~200 km · Desvío a Puerto Cisnes · Pingüinera Isla Magdalena</div>
+          <div class="day-tags"><span class="t a">Puerto Cisnes</span><span class="t g">Pingüinera</span><span class="t o">La Junta</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>En la bajada no hubo tiempo para el desvío a Puerto Cisnes. Ahora es el momento: un pueblo pesquero tranquilo con acceso a la Reserva Nacional Isla Magdalena, donde en febrero anidan miles de pingüinos de Magallanes. Una sorpresa absoluta en la Carretera Austral. Pernocta en La Junta.</p>
+        <div class="detail-grid">
+          <div class="db hi"><h4>🐧 Isla Magdalena</h4><ul><li>Navegación ~4h desde Puerto Cisnes</li><li>Pingüinos de Magallanes en época de cría (febrero)</li><li>Contratar tour en el pueblo la mañana misma</li></ul></div>
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Puerto Cisnes tiene nafta y diesel</li><li>La Junta — recarga</li></ul></div>
+          <div class="db sl"><h4>🏕 Alojamiento</h4><ul><li>Hostal La Junta</li><li>Cabañas El Pangue</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 14 -->
+    <div class="day">
+      <div class="day-dot ferry"></div>
+      <div class="day-hdr">
+        <div class="day-num ret-n">14<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">La Junta → Chaitén → Ferry nocturno directo Puerto Montt</div>
+          <div class="day-sub">~175 km terrestres + Ferry 9 horas (nocturno) · Naviera Austral</div>
+          <div class="day-tags"><span class="t a">Ferry nocturno 9h</span><span class="t o">Naviera Austral</span><span class="t gr">Llegada madrugada</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>Regreso a Chaitén para tomar el ferry nocturno directo a Puerto Montt: 9 horas que cubren de un golpe todo el tramo norte, evitando los ferrys cortos de Hornopirén y La Arena. El barco sale normalmente a última hora de la tarde o noche, llegando a Puerto Montt en la madrugada del Día 15.</p>
+        <p>Reservar este ferry con 2–3 semanas de anticipación en navieraustral.cl. En febrero se llena. Es la pieza logística más crítica del regreso.</p>
+        <div class="detail-grid">
+          <div class="db al"><h4>⛴ Ferry Chaitén → Pto Montt</h4><ul><li>Duración: ~9 horas (nocturno)</li><li>~$165.000 CLP vehículo + ~$35.000 persona</li><li>Reservar en navieraustral.cl — 2–3 semanas antes</li><li>Camarotes disponibles — reservar también</li></ul></div>
+          <div class="db fu"><h4>⛽ Combustible</h4><ul><li>Cargar en Chaitén antes de embarcar</li></ul></div>
+          <div class="db hi"><h4>🛳 En el ferry</h4><ul><li>Camarotes y butacas reclinables</li><li>Restaurant y cafetería a bordo</li><li>Vistas de fiordos al amanecer</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍA 15 -->
+    <div class="day">
+      <div class="day-dot hl"></div>
+      <div class="day-hdr">
+        <div class="day-num ret-n">15<small>día</small></div>
+        <div class="day-info">
+          <div class="day-route">Llegada Puerto Montt — Expedición completada</div>
+          <div class="day-sub">Desembarco temprano · Fin del viaje · ~2.700 km recorridos</div>
+          <div class="day-tags"><span class="t o">Llegada</span><span class="t g">Misión cumplida</span><span class="t gr">Descanso</span></div>
+        </div>
+      </div>
+      <button class="toggle-btn">↓ ver detalles</button>
+      <div class="day-body">
+        <p>El ferry atraca en Puerto Montt a primeras horas de la mañana. Después de 15 días, ~2.700 km, la Ruta 7 completa, Villa O'Higgins, glaciares, fiordos, termas, trekkings épicos y un Jeep Rubicon puesto a prueba en uno de los terrenos más extremos del planeta — el círculo se cierra.</p>
+        <div class="detail-grid">
+          <div class="db al"><h4>✅ Checklist llegada</h4><ul><li>Revisar estado general del Rubicon</li><li>Fotografiar daños para seguro si corresponde</li><li>Descargar GPS tracks y respaldar fotos</li><li>Limpiar y guardar equipo de camping</li></ul></div>
+          <div class="db hi"><h4>📊 Logros de la expedición</h4><ul><li>~2.700 km totales recorridos</li><li>6 ferrys/barcazas atravesados</li><li>Km 0 al Km 1.247 de la Ruta 7</li><li>Villa O'Higgins — el fin del mundo alcanzado</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end tl-regreso -->
+</section>
+
+<div class="section-divider"></div>
+
+<!-- FERRYS -->
+<section id="ferrys">
+  <p class="section-tag">Logística fluvial — 6 travesías</p>
+  <h2>Ferrys y barcazas de la ruta</h2>
+  <p style="font-size:14px;color:#666;margin-bottom:2rem;line-height:1.75;">Seis travesías acuáticas jalonan el viaje. La más crítica para reservar con anticipación es el ferry nocturno Chaitén → Puerto Montt del regreso (Día 14). La barcaza Puerto Yungay → Río Bravo es gratuita y sin reserva.</p>
+
+  <div class="ferry-box">
+    <span class="fi">⛴</span>
+    <div>
+      <h3>① Caleta La Arena → Caleta Puelche</h3>
+      <p>Día 1 (bajada) · 30 min · Cada 45–60 min · Sin reserva · ~$12.000 CLP auto + $2.500 persona · Llegar 1h antes en febrero</p>
+    </div>
+  </div>
+
+  <div class="ferry-box">
+    <span class="fi">⛴</span>
+    <div>
+      <h3>② Hornopirén → Caleta Gonzalo (Parque Pumalín)</h3>
+      <p>Día 2 (bajada) · 4 horas · 1–2 salidas/día · ~$65.000–80.000 CLP vehículo · Reservar con anticipación en navieraustral.cl</p>
+    </div>
+  </div>
+
+  <div class="ferry-box alt">
+    <span class="fi">⛴</span>
+    <div>
+      <h3>③ Puerto Yungay → Río Bravo (Fiordo Mitchell)</h3>
+      <p>Día 8 (bajada) · 1 hora · GRATUITA · Sin reserva · Por orden de llegada · Verificar horario al llegar a Tortel · Pocas salidas al día</p>
+    </div>
+  </div>
+
+  <div class="ferry-box alt">
+    <span class="fi">⛴</span>
+    <div>
+      <h3>④ Río Bravo → Puerto Yungay (regreso)</h3>
+      <p>Día 10 (regreso) · 1 hora · GRATUITA · Sin reserva · Misma barcaza en sentido contrario</p>
+    </div>
+  </div>
+
+  <div class="ferry-box">
+    <span class="fi">⛴</span>
+    <div>
+      <h3>⑤ Ferry Lago General Carrera: Puerto Ibáñez → Chile Chico</h3>
+      <p>Día 10 (opcional si se va por lago) · 2.5 horas · ~$15.000 CLP persona · Alternativa al paso por tierra · Vistas increíbles del lago turquesa</p>
+    </div>
+  </div>
+
+  <div class="ferry-box" style="background:#5A1A08;">
+    <span class="fi">⛴</span>
+    <div>
+      <h3>⑥ Chaitén → Puerto Montt (ferry nocturno directo)</h3>
+      <p>Día 14 (regreso) · ~9 horas · ~$165.000 CLP vehículo + ~$35.000 persona · RESERVAR 2–3 semanas antes en navieraustral.cl · Camarotes disponibles</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>⚠ Estrategia de regreso eficiente</strong>
+    <p>El ferry nocturno directo Chaitén → Puerto Montt del Día 14 es la clave para cerrar el viaje en 15 días. Evita completamente los ferrys intermedios de Hornopirén y La Arena que se hicieron en la bajada, ahorrando medio día de esperas. Sin este ferry, el regreso demoraría 1–2 días adicionales. Es <strong>imprescindible reservar antes de salir de viaje.</strong></p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- COMBUSTIBLE -->
+<section id="combustible">
+  <p class="section-tag">Planificación crítica</p>
+  <h2>Estaciones de combustible — Ruta completa</h2>
+  <p style="font-size:14px;color:#666;margin-bottom:2rem;line-height:1.75;">El tramo Cochrane → Villa O'Higgins (~235 km) es el más exigente en autonomía. Lleva siempre un bidón de reserva desde Cochrane. El Rubicon con sus ~96L tiene margen, pero el ripio eleva el consumo a 14–16L/100km.</p>
+  <div class="gas-grid">
+    <div class="gas-card"><h4>Puerto Montt</h4><div class="km">Km 0</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span><span class="ft ok">24h</span></div></div>
+    <div class="gas-card"><h4>Hornopirén</h4><div class="km">Km ~120 · Día 1</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span></div></div>
+    <div class="gas-card"><h4>Chaitén</h4><div class="km">Km ~220 · Días 2 y 14</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span></div></div>
+    <div class="gas-card"><h4>La Junta</h4><div class="km">Km ~390 · Días 3 y 13</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span></div></div>
+    <div class="gas-card"><h4>Puyuhuapi</h4><div class="km">Km ~445 · Día 3</div><div class="tags"><span class="ft warn">Solo Diesel</span></div></div>
+    <div class="gas-card"><h4>Puerto Cisnes</h4><div class="km">Km ~545 desvío · Día 13</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span></div></div>
+    <div class="gas-card"><h4>Villa Mañihuales</h4><div class="km">Km ~600 · Días 4 y 12</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span></div></div>
+    <div class="gas-card"><h4>Coyhaique</h4><div class="km">Km ~780 · Días 4–5 y 12</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span><span class="ft ok">Múltiples</span></div></div>
+    <div class="gas-card"><h4>Villa Cerro Castillo</h4><div class="km">Km ~880 · Día 5</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span></div></div>
+    <div class="gas-card"><h4>Puerto Río Tranquilo</h4><div class="km">Km ~980 · Día 6</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span></div></div>
+    <div class="gas-card"><h4>Cochrane ⚠</h4><div class="km">Km ~1.116 · Día 7</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span><span class="ft warn">Última segura</span></div></div>
+    <div class="gas-card"><h4>Villa O'Higgins</h4><div class="km">Km 1.247 · Días 8–9</div><div class="tags"><span class="ft warn">Limitado</span><span class="ft warn">Llevar bidón</span></div></div>
+    <div class="gas-card"><h4>Chile Chico</h4><div class="km">Regreso · Día 10</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Diesel</span><span class="ft ok">ATM</span></div></div>
+    <div class="gas-card"><h4>Los Antiguos (ARG)</h4><div class="km">Regreso · Día 11</div><div class="tags"><span class="ft ok">Nafta</span><span class="ft ok">Pesos ARG</span></div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ALOJAMIENTO -->
+<section id="alojamiento">
+  <p class="section-tag">Descanso en ruta</p>
+  <h2>Alojamiento recomendado</h2>
+  <div class="aloj-grid">
+    <div class="aloj"><div class="aloj-hdr"><div><div class="aloj-name">Hostería Hornopirén</div><div class="aloj-loc">Hornopirén · Día 1</div></div><span class="aloj-type lod">Hostería</span></div><div class="aloj-body">Cómodo y bien ubicado para el ferry temprano del día siguiente. Vistas al fiordo y el volcán. ~$65.000 CLP doble.</div></div>
+    <div class="aloj"><div class="aloj-hdr"><div><div class="aloj-name">Camping Cascadas Pumalín</div><div class="aloj-loc">Parque Pumalín · Día 2</div></div><span class="aloj-type cam">Camping</span></div><div class="aloj-body">Camping Tompkins Conservation dentro del parque. Cerca de cascadas espectaculares. Bien mantenido. ~$8.000 CLP.</div></div>
+    <div class="aloj"><div class="aloj-hdr"><div><div class="aloj-name">Lodge & Spa Puyuhuapi</div><div class="aloj-loc">Puyuhuapi · Día 3</div></div><span class="aloj-type lod">Lodge</span></div><div class="aloj-body">Solo accesible en lancha. Termas en el fiordo, experiencia única. El alojamiento más especial de toda la CA. ~$250.000+ CLP.</div></div>
+    <div class="aloj"><div class="aloj-hdr"><div><div class="aloj-name">Hostal Gladys</div><div class="aloj-loc">Coyhaique · Días 4–5 y 12</div></div><span class="aloj-type lod">Hostal</span></div><div class="aloj-body">El clásico de los viajeros de la CA. Ambiente familiar, céntrico, desayuno incluido. ~$55.000 CLP doble.</div></div>
+    <div class="aloj"><div class="aloj-hdr"><div><div class="aloj-name">Camping El Puesto</div><div class="aloj-loc">Cerro Castillo · Día 5</div></div><span class="aloj-type cam">Camping</span></div><div class="aloj-body">Vistas directas al glaciar y las torres de basalto. Base perfecta para el trek de la laguna. ~$8.000 CLP.</div></div>
+    <div class="aloj"><div class="aloj-hdr"><div><div class="aloj-name">Cabañas Marbella</div><div class="aloj-loc">Puerto Río Tranquilo · Día 6</div></div><span class="aloj-type cab">Cabaña</span></div><div class="aloj-body">Vista al Lago General Carrera turquesa. A pasos de los embarcaderos para las Capillas de Mármol. ~$75.000 CLP.</div></div>
+    <div class="aloj"><div class="aloj-hdr"><div><div class="aloj-name">Hostal Río Baker</div><div class="aloj-loc">Caleta Tortel · Día 7</div></div><span class="aloj-type lod">Hostal</span></div><div class="aloj-body">Sobre las pasarelas del fiordo con vistas al delta del Río Baker. Ambiente único y auténtico. ~$55.000 CLP doble.</div></div>
+    <div class="aloj"><div class="aloj-hdr"><div><div class="aloj-name">Hostal Rumbo Sur</div><div class="aloj-loc">Villa O'Higgins · Días 8–9</div></div><span class="aloj-type lod">Hostal</span></div><div class="aloj-body">El hostal más recomendado del fin del mundo. Buena atención, información local de primera mano. ~$50.000 CLP doble.</div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- TREKKING -->
+<section id="trekking">
+  <p class="section-tag">Aventura pedestre</p>
+  <h2>Trekkings del itinerario</h2>
+
+  <div class="trek"><div class="tk-bar h"></div><div class="trek-c">
+    <div class="trek-hdr"><span class="trek-name">Laguna Cerro Castillo</span><span class="dif h">Difícil</span></div>
+    <div class="trek-meta"><span>📏 14 km ida y vuelta</span><span>⏱ 6–8h</span><span>📍 Villa Cerro Castillo · Día 5</span><span>🏔 1.650 msnm</span></div>
+    <p>El trekking más emblemático de la CA. Torres de basalto negro, glaciar colgante y laguna de color turquesa intenso sin aglomeración de turistas. Imprescindible en el viaje.</p>
+  </div></div>
+
+  <div class="trek"><div class="tk-bar e"></div><div class="trek-c">
+    <div class="trek-hdr"><span class="trek-name">Ventisquero Colgante — P.N. Queulat</span><span class="dif e">Fácil</span></div>
+    <div class="trek-meta"><span>📏 3.5 km ida y vuelta</span><span>⏱ 2–3h</span><span>📍 P.N. Queulat · Día 4</span></div>
+    <p>Glaciar suspendido entre paredes de roca con cascadas al vacío. Puente colgante y bosque valdiviano. Reservar en aspticket.cl con anticipación.</p>
+  </div></div>
+
+  <div class="trek"><div class="tk-bar e"></div><div class="trek-c">
+    <div class="trek-hdr"><span class="trek-name">Bosque Encantado — P.N. Queulat</span><span class="dif e">Fácil</span></div>
+    <div class="trek-meta"><span>📏 4.5 km circular</span><span>⏱ 2–4h</span><span>📍 P.N. Queulat · Día 4</span></div>
+    <p>Bosque cubierto de musgo y líquenes — imposible distinguir la corteza de los árboles bajo el verde. Sendero de cuento de hadas, imprescindible para fotografía.</p>
+  </div></div>
+
+  <div class="trek"><div class="tk-bar m"></div><div class="trek-c">
+    <div class="trek-hdr"><span class="trek-name">Glaciar Río Mosco</span><span class="dif m">Moderado</span></div>
+    <div class="trek-meta"><span>📏 ~10 km ida y vuelta</span><span>⏱ 4–5h</span><span>📍 Villa O'Higgins · Días 8–9</span></div>
+    <p>El sendero parte desde el pueblo mismo (100m al este de la plaza). Vistas a los Campos de Hielo Sur y al glaciar. Cruce de arroyos en el tramo final. Experiencia única en el fin del mundo.</p>
+  </div></div>
+
+  <div class="trek"><div class="tk-bar m"></div><div class="trek-c">
+    <div class="trek-hdr"><span class="trek-name">Cerro Bandera — Caleta Tortel</span><span class="dif m">Moderado</span></div>
+    <div class="trek-meta"><span>📏 5 km circular</span><span>⏱ 2–3h</span><span>📍 Caleta Tortel · Día 7</span></div>
+    <p>El mirador perfecto sobre el pueblo de las pasarelas. Vista aérea del delta del Río Baker y los fiordos. Desciende por el otro lado para regresar por las pasarelas del pueblo.</p>
+  </div></div>
+
+  <div class="trek"><div class="tk-bar e"></div><div class="trek-c">
+    <div class="trek-hdr"><span class="trek-name">Sendero Alerces Milenarios — Parque Pumalín</span><span class="dif e">Fácil</span></div>
+    <div class="trek-meta"><span>📏 3 km circular</span><span>⏱ 1.5h</span><span>📍 Caleta Gonzalo · Día 2</span></div>
+    <p>Bosque de alerces de más de 3.000 años de antigüedad. Árboles gigantes en un ecosistema perfectamente preservado por Tompkins Conservation. Una parada corta pero absolutamente memorable.</p>
+  </div></div>
+
+  <div class="trek"><div class="tk-bar h"></div><div class="trek-c">
+    <div class="trek-hdr"><span class="trek-name">Volcán Chaitén</span><span class="dif h">Difícil</span></div>
+    <div class="trek-meta"><span>📏 10 km ida y vuelta</span><span>⏱ 4–5h</span><span>📍 Chaitén · Día 2</span></div>
+    <p>Ascenso al cráter del volcán que erupcionó en 2008. El paisaje lunar del interior del cráter y las vistas al fiordo y la ciudad destruida son surrealistas y fascinantes.</p>
+  </div></div>
+
+</section>
+
+<div class="section-divider"></div>
+
+<!-- TIPS -->
+<section id="tips">
+  <p class="section-tag">Preparación overland</p>
+  <h2>Tips esenciales para la expedición</h2>
+  <div class="tips-grid">
+    <div class="tip"><span class="tip-icon">⛴</span><h4>Reservar el ferry de regreso YA</h4><p>El ferry nocturno Chaitén → Puerto Montt (Día 14) es la pieza logística más crítica. En febrero se llena semanas antes. Entra en navieraustral.cl y reserva vehículo + camarote antes de salir de viaje. Sin esto, el itinerario no cierra en 15 días.</p></div>
+    <div class="tip"><span class="tip-icon">🛂</span><h4>Documentos para cruzar a Argentina</h4><p>Para cruzar el Paso Roballos con el Jeep: pasaporte vigente + declaración jurada de exportación temporal del vehículo (se tramita en el Servicio Nacional de Aduanas o con un despachador). Verifica que el seguro del vehículo cubra Argentina.</p></div>
+    <div class="tip"><span class="tip-icon">🔧</span><h4>Kit Rubicon para la CA sur</h4><p>El tramo Cochrane–Villa O'Higgins es 100% ripio exigente. Lleva 2 neumáticos de repuesto (no uno), compresor 12V, parches vulcanizadores, gato de piso, planchas de recuperación, y cable de alta resistencia. Revisa diferencial y suspensión antes de salir.</p></div>
+    <div class="tip"><span class="tip-icon">⛽</span><h4>Bidón de combustible extra</h4><p>Desde Cochrane a Villa O'Higgins son ~235 km de ripio puro sin estación garantizada. El consumo en ripio sube a 14–16L/100km. Un bidón de 20L da tranquilidad total. Cargarlo en Cochrane antes de continuar al sur.</p></div>
+    <div class="tip"><span class="tip-icon">📡</span><h4>Conectividad nula al sur de Cochrane</h4><p>Entre Cochrane y Villa O'Higgins no hay señal celular de ningún operador. Descarga Maps.me offline, lleva GPS dedicado con mapas actualizados, y avisa a alguien de confianza tu plan de ruta y fecha estimada de regreso.</p></div>
+    <div class="tip"><span class="tip-icon">💧</span><h4>Agua y comida para el sur</h4><p>Más allá de Cochrane no hay tiendas. Lleva provisiones para 3–4 días desde Cochrane. Los ríos tienen agua potable excelente con filtro Sawyer/LifeStraw. En Villa O'Higgins hay un pequeño almacén con stock básico.</p></div>
+    <div class="tip"><span class="tip-icon">🌧</span><h4>Clima febrero en la Patagonia</h4><p>Febrero es el mes más favorable: días de hasta 21:30h de luz, temperaturas 10–22°C, y el período más seco. Pero Puyuhuapi y Queulat son excepcionalmente lluviosos todo el año. Ropa impermeable de calidad, siempre en el maletero.</p></div>
+    <div class="tip"><span class="tip-icon">🦟</span><h4>Jejenes — el gran enemigo</h4><p>Diminutos y muy agresivos, especialmente al sur de Coyhaique y cerca del agua estancada. Repelente DEET 50%+, malla protectora para cabeza y manga larga son imprescindibles para los trekkings y campamentos.</p></div>
+    <div class="tip"><span class="tip-icon">💰</span><h4>Efectivo en abundancia</h4><p>Retira pesos chilenos en Puerto Montt y Coyhaique. Retira pesos argentinos en Chile Chico o Los Antiguos. La mayoría de campings, hospedajes rurales y servicios al sur de Coyhaique solo aceptan efectivo.</p></div>
+    <div class="tip"><span class="tip-icon">📋</span><h4>Reservas previas al viaje</h4><p>Antes de salir: (1) Ferry nocturno Chaitén–Pto Montt en navieraustral.cl, (2) P.N. Queulat en aspticket.cl, (3) Lodge Puyuhuapi si es la opción elegida. Estas tres reservas no se improvisan en temporada alta.</p></div>
+  </div>
+</section>
+
+
+<div class="section-divider"></div>
+
+<!-- PRESUPUESTO -->
+<section id="presupuesto">
+  <p class="section-tag">Estimación financiera</p>
+  <h2>Presupuesto total del viaje</h2>
+
+  <!-- HERO TOTAL -->
+  <div class="budget-hero">
+    <div class="budget-hero-total">
+      <span class="big" id="totalAnimated">$4.529.000</span>
+      <span class="sublabel">Total estimado · Pareja · 15 días</span>
+    </div>
+    <div class="budget-hero-meta">
+      <div class="budget-hero-meta-item"><span class="bh-label">Combustible</span><span class="bh-val">~$695.000</span></div>
+      <div class="budget-hero-meta-item"><span class="bh-label">Ferrys</span><span class="bh-val">~$360.000</span></div>
+      <div class="budget-hero-meta-item"><span class="bh-label">Comidas (15d)</span><span class="bh-val">$2.250.000</span></div>
+      <div class="budget-hero-meta-item"><span class="bh-label">Alojamiento</span><span class="bh-val">~$450.000</span></div>
+      <div class="budget-hero-meta-item"><span class="bh-label">Actividades</span><span class="bh-val">~$232.000</span></div>
+      <div class="budget-hero-meta-item"><span class="bh-label">Imprevistos 10%</span><span class="bh-val">~$412.000</span></div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="budget-charts">
+    <div class="chart-card">
+      <h4>Distribución del presupuesto</h4>
+      <div class="donut-wrap">
+        <svg id="donutChart" viewBox="0 0 120 120" width="130" height="130" style="flex-shrink:0;">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#F0EDE8" stroke-width="20"/>
+          <!-- Comidas 49.7% -->
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#2D5A27" stroke-width="20"
+            stroke-dasharray="156.2 314.1" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+          <!-- Combustible 15.3% -->
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#D4860A" stroke-width="20"
+            stroke-dasharray="48.1 314.1" stroke-dashoffset="-156.2" transform="rotate(-90 60 60)"/>
+          <!-- Alojamiento 9.7% -->
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#C4522A" stroke-width="20"
+            stroke-dasharray="30.5 314.1" stroke-dashoffset="-204.3" transform="rotate(-90 60 60)"/>
+          <!-- Imprevistos 9.1% -->
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#B0452A" stroke-width="20"
+            stroke-dasharray="28.6 314.1" stroke-dashoffset="-234.8" transform="rotate(-90 60 60)"/>
+          <!-- Ferrys 8.4% -->
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#1B6CA8" stroke-width="20"
+            stroke-dasharray="26.4 314.1" stroke-dashoffset="-263.4" transform="rotate(-90 60 60)"/>
+          <!-- Actividades 5.1% -->
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#8A5FC0" stroke-width="20"
+            stroke-dasharray="16.0 314.1" stroke-dashoffset="-289.8" transform="rotate(-90 60 60)"/>
+          <!-- Peajes 2.6% -->
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#8A9BAB" stroke-width="20"
+            stroke-dasharray="8.2 314.1" stroke-dashoffset="-305.8" transform="rotate(-90 60 60)"/>
+          <text x="60" y="55" text-anchor="middle" font-family="'Playfair Display',serif" font-size="11" font-weight="700" fill="#1C1C14">$4,5M</text>
+          <text x="60" y="68" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" fill="#8A9BAB" letter-spacing="1">CLP</text>
+        </svg>
+        <ul class="legend-list">
+          <li><span class="legend-dot" style="background:#2D5A27"></span>Comidas<span class="legend-pct">50%</span></li>
+          <li><span class="legend-dot" style="background:#D4860A"></span>Combustible<span class="legend-pct">15%</span></li>
+          <li><span class="legend-dot" style="background:#C4522A"></span>Alojamiento<span class="legend-pct">10%</span></li>
+          <li><span class="legend-dot" style="background:#B0452A"></span>Imprevistos<span class="legend-pct">9%</span></li>
+          <li><span class="legend-dot" style="background:#1B6CA8"></span>Ferrys<span class="legend-pct">8%</span></li>
+          <li><span class="legend-dot" style="background:#8A5FC0"></span>Actividades<span class="legend-pct">5%</span></li>
+          <li><span class="legend-dot" style="background:#8A9BAB"></span>Peajes<span class="legend-pct">3%</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h4>Comparativa por categoría</h4>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <span class="bar-lbl">Comidas</span>
+          <div class="bar-track"><div class="bar-fill" style="width:100%;background:#2D5A27"><span>$2.250.000</span></div></div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-lbl">Alojamiento</span>
+          <div class="bar-track"><div class="bar-fill" style="width:20%;background:#C4522A"><span>$450.000</span></div></div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-lbl">Combustible</span>
+          <div class="bar-track"><div class="bar-fill" style="width:31%;background:#D4860A"><span>$695.000</span></div></div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-lbl">Ferrys</span>
+          <div class="bar-track"><div class="bar-fill" style="width:17%;background:#1B6CA8"><span>$380.000</span></div></div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-lbl">Peajes</span>
+          <div class="bar-track"><div class="bar-fill" style="width:5%;background:#8A9BAB"><span>$120.000</span></div></div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-lbl">Actividades</span>
+          <div class="bar-track"><div class="bar-fill" style="width:10%;background:#8A5FC0"><span>$232.000</span></div></div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-lbl">Imprevistos</span>
+          <div class="bar-track"><div class="bar-fill" style="width:17%;background:#B0452A"><span>$412.000</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA DETALLADA -->
+  <div class="budget-table-wrap">
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th style="width:36%">Ítem</th>
+          <th>Detalle / Cálculo</th>
+          <th style="width:18%">Total CLP</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- COMBUSTIBLE -->
+        <tr><td colspan="3" class="section-label"><span class="sect-icon">⛽</span><span>Combustible</span></td></tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot fuel"></span>Bencina 95 — tramo Chile</span></td>
+          <td class="detail">~2.500 km en Chile ÷ 7 km/L = 357 L × $1.800/L (precio bencina 95 junio 2025, uniforme en toda la ruta)</td>
+          <td>$643.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot fuel"></span>Bencina — tramo Argentina</span></td>
+          <td class="detail">~200 km en Argentina ÷ 7 km/L = 29 L × $1.800 CLP equiv.</td>
+          <td>$52.000</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal Combustible · 386 L totales · Rendimiento 7 km/L · @$1.800/L</td>
+          <td>$695.000</td>
+        </tr>
+
+        <!-- PEAJES -->
+        <tr><td colspan="3" class="section-label"><span class="sect-icon">🛣️</span><span>Peajes</span></td></tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot peaje"></span>Peajes Ruta 5 Sur (Puerto Montt)</span></td>
+          <td class="detail">Ruta 5 Sur, accesos Puerto Montt (ida + vuelta)</td>
+          <td>$30.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot peaje"></span>Otros peajes en ruta (ida + vuelta)</span></td>
+          <td class="detail">Peajes intermedios ruta, pasos privados y caminos concesionados ida y vuelta</td>
+          <td>$90.000</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal Peajes · Total ida y vuelta incluye Ruta 5 Sur + rutas concesionadas</td>
+          <td>$120.000</td>
+        </tr>
+
+        <!-- FERRYS Y BARCAZAS -->
+        <tr><td colspan="3" class="section-label"><span class="sect-icon">⛴</span><span>Ferrys y Barcazas</span></td></tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot ferry"></span>La Arena → Caleta Puelche (ida)</span></td>
+          <td class="detail">$12.000 vehículo + 2 personas × $2.500</td>
+          <td>$17.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot ferry"></span>Hornopirén → Caleta Gonzalo</span></td>
+          <td class="detail">~$72.000 vehículo + 2 personas × $18.000</td>
+          <td>$108.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot ferry"></span>Puerto Yungay ↔ Río Bravo (ida y vuelta)</span></td>
+          <td class="detail">Barcaza gratuita operada por el Estado · 2 cruces = $0</td>
+          <td>$0</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot ferry"></span>Chaitén → Puerto Montt (regreso nocturno)</span></td>
+          <td class="detail">~$165.000 vehículo + 2 personas × $35.000 + camarote ~$20.000</td>
+          <td>$255.000</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal Ferrys y Barcazas</td>
+          <td>$380.000</td>
+        </tr>
+
+        <!-- COMIDAS -->
+        <tr><td colspan="3" class="section-label"><span class="sect-icon">🍽️</span><span>Alimentación</span></td></tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot food"></span>Alimentación diaria pareja</span></td>
+          <td class="detail">$150.000/día × 15 días · Incluye desayuno, almuerzo, cena y snacks en ruta</td>
+          <td>$2.250.000</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal Alimentación · Promedio $75.000/persona/día</td>
+          <td>$2.250.000</td>
+        </tr>
+
+        <!-- ALOJAMIENTO -->
+        <tr><td colspan="3" class="section-label"><span class="sect-icon">🏕️</span><span>Alojamiento</span></td></tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot aloj"></span>Hostales / Cabañas (5 noches)</span></td>
+          <td class="detail">$70.000/noche × 5 noches · Puyuhuapi, Coyhaique, Río Tranquilo, Villa O'Higgins, Coyhaique regreso</td>
+          <td>$350.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot aloj"></span>Campings (9 noches)</span></td>
+          <td class="detail">~$10.000/noche × 9 noches · Hornopirén, Chaitén/Pumalín, La Junta, Queulat, Cerro Castillo, Cochrane, Tortel, O'Higgins, Chile Chico</td>
+          <td>$90.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot aloj"></span>Ferry nocturno — camarote</span></td>
+          <td class="detail">Camarote doble incluido en ítem ferry Chaitén–Pto Montt</td>
+          <td>$0</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal Alojamiento · 5 noches hostal + 9 noches camping + 1 noche ferry</td>
+          <td>$440.000</td>
+        </tr>
+
+        <!-- ACTIVIDADES Y ENTRADAS -->
+        <tr><td colspan="3" class="section-label"><span class="sect-icon">🎟️</span><span>Actividades y Entradas</span></td></tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot act"></span>P.N. Queulat (2 personas)</span></td>
+          <td class="detail">2 × $8.000 · Reserva obligatoria aspticket.cl</td>
+          <td>$16.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot act"></span>P.N. Cerro Castillo (2 personas)</span></td>
+          <td class="detail">2 × $5.000</td>
+          <td>$10.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot act"></span>Capillas de Mármol (2 personas)</span></td>
+          <td class="detail">Tour en lancha 1.5h · 2 × $18.000</td>
+          <td>$36.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot act"></span>Termas Puyuhuapi (2 personas)</span></td>
+          <td class="detail">Tour en lancha + entrada termas · 2 × $35.000</td>
+          <td>$70.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot act"></span>Pingüinera Isla Magdalena (2 personas)</span></td>
+          <td class="detail">Tour en lancha · 2 × $45.000 aprox.</td>
+          <td>$90.000</td>
+        </tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot act"></span>P.N. Hornopirén / CONAF varios</span></td>
+          <td class="detail">2 × $5.000 entradas parques menores</td>
+          <td>$10.000</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal Actividades y Entradas</td>
+          <td>$232.000</td>
+        </tr>
+
+        <!-- IMPREVISTOS -->
+        <tr><td colspan="3" class="section-label"><span class="sect-icon">🔧</span><span>Imprevistos y Reserva de Seguridad</span></td></tr>
+        <tr>
+          <td><span class="cat-label"><span class="cat-dot impr"></span>Fondo de imprevistos (10%)</span></td>
+          <td class="detail">Pinchazo de neumático, medicamentos, comida extra, peajes inesperados, cambio de combustible, emergencias menores</td>
+          <td>$412.000</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal Imprevistos</td>
+          <td>$412.000</td>
+        </tr>
+
+        <!-- TOTAL FINAL -->
+        <tr class="total-row">
+          <td colspan="2">TOTAL ESTIMADO · Pareja · 15 días · Puerto Montt ↔ Villa O'Higgins</td>
+          <td>$4.529.000</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NOTA ACLARATORIA -->
+  <div class="nota-box">
+    <strong>📌 Notas del presupuesto</strong>
+    <p>
+      <strong>Combustible:</strong> Calculado con rendimiento de 7 km/L para el Jeep Rubicon y precio promedio de $1.800 CLP/L (bencina 95, precio junio 2025). Aunque en tramos muy remotos puede superar ese valor, se usa $1.800 como base conservadora. El ripio puro aumenta el consumo respecto a asfalto — se recomienda considerar un 10% de margen adicional.<br><br>
+      <strong>Comidas:</strong> $150.000/día por pareja es una estimación generosa que permite comer bien en restaurantes locales, comprar alimentos frescos en supermercados y no privarse de nada. En campings, cocinar los propios alimentos baja este ítem significativamente.<br><br>
+      <strong>Alojamiento:</strong> Se consideran 5 noches en hostal/cabaña ($70.000/noche) y 9 noches en camping (~$10.000/noche). La noche de ferry incluye el camarote en el precio del pasaje.<br><br>
+      <strong>No incluye:</strong> seguro de viaje (muy recomendado, ~$80.000–150.000 por persona), aranceles de aduana al cruzar a Argentina, repuestos adicionales para el vehículo, equipamiento de camping si debe comprarse.
+    </p>
+  </div>
+
+</section>
+
+<footer>
+  <p><strong>Carretera Austral Roadbook — Villa O'Higgins Edition</strong></p>
+  <p style="margin-top:.4rem;font-size:11px;">↓ Bajada (Días 1–8): Pto Montt → Hornopirén → Pumalín → Chaitén → La Junta → Puyuhuapi → Queulat → Coyhaique → Cerro Castillo → Río Tranquilo → Cochrane → Caleta Tortel → Puerto Yungay → Villa O'Higgins</p>
+  <p style="margin-top:.3rem;font-size:11px;">↑ Regreso (Días 9–15): Villa O'Higgins → Cochrane → Chile Chico → Paso Roballos → Los Antiguos (ARG) → Paso Coyhaique → Coyhaique → Puerto Cisnes → La Junta → Chaitén → Ferry nocturno → Pto Montt</p>
+  <p style="margin-top:.4rem;font-size:10px;opacity:.5;">Roadbook generado para uso personal · Km 0 a Km 1.247 · Ruta 7 completa · Febrero · Jeep Rubicon</p>
+</footer>
+
+<script>
+function openDay(card) {
+  var body = card.querySelector('.day-body');
+  var btn  = card.querySelector('.toggle-btn');
+  if (!body) return;
+  var isOpen = body.style.display === 'block';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (btn) btn.textContent = isOpen ? '↓ ver detalles' : '↑ cerrar';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.day-hdr').forEach(function(hdr) {
+    hdr.style.cursor = 'pointer';
+    hdr.addEventListener('click', function() {
+      openDay(hdr.closest('.day'));
+    });
+  });
+  document.querySelectorAll('.toggle-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      openDay(btn.closest('.day'));
+    });
+  });
+  document.querySelectorAll('nav a').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+});
+</script>
+</body>
+</html>
